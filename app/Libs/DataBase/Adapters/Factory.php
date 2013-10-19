@@ -24,6 +24,11 @@ class Factory extends Singleton
 	{
 		$config = Config::getCustom('db');
 		$config = $config[$db_name];
-		return new Mysqli(new \mysqli($config['host'], $config['username'], $config['password'], $config['dbname']));
+		
+		$mysql = new \mysqli($config['host'], $config['username'], $config['password'], $config['dbname']);
+		
+		$mysql->set_charset('utf8');
+		
+		return new Mysqli($mysql);
 	}
 }
