@@ -1,0 +1,40 @@
+<script id="<?=$this->id?>" type="text/template">
+<div class="form">
+<form action="<?=$this->url?>">
+<table>
+	<tr>
+		<td>
+			<?=_t('/dialogs/add_categories/title')?>:*
+		</td>
+		<td>
+			<input type="text" name="title" />
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<?=_t('/dialogs/add_categories/sum')?>:
+		</td>
+		<td>
+			<input type="text" name="amount" />
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<?=_t('/dialogs/add_categories/group')?>:
+		</td>
+		<td>
+			<select id="groups-select" name="group"></select>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<?=_t('/dialogs/add_categories/pin')?>:
+		</td>
+		<td>
+			<input type="checkbox" name="pin" value="1" />
+		</td>
+	</tr>
+</table>
+</form>
+</div>
+</script>

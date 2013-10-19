@@ -1,0 +1,64 @@
+<div id="count"></div>
+<script>
+i18n["/dialogs/titles/add_group"] = "<?=_t('/js/dialogs/titles/add_group')?>";
+i18n["/dialogs/titles/add_category"] = "<?=_t('/js/dialogs/titles/add_category')?>";
+i18n["/dialogs/titles/edit_category"] = "<?=_t('/js/dialogs/titles/edit_category')?>";
+i18n["/dialogs/titles/edit_group"] = "<?=_t('/js/dialogs/titles/edit_group')?>";
+i18n["/dialogs/text/delete_group"] = "<?=_t('/js/dialogs/text/delete_group')?>";
+i18n["/dialogs/text/delete_category"] = "<?=_t('/js/dialogs/text/delete_category')?>";
+
+$(function(){
+	Collections.Groups.getInstance().onAdd(function(model){
+		Views.GroupsCollection .getInstance().add(model.get("id"), new Views.PlannerGroup(model));
+	}).addBunch(<?=json_encode($this->groups)?>);
+
+	Collections.Categories.getInstance().addBunch(<?=json_encode($this->categories)?>);
+
+	new Views.AddGroupInitiator();
+});
+</script>
+<?php
+create_view('/dialogs/group.phtml')
+	->assign('id', 'add-group-dialog')
+	->assign('url', _url('/PlannerProcessor/addGroup/'))
+	->render();
+
+create_view('/dialogs/group.phtml')
+	->assign('id', 'edit-group-dialog')
+	->assign('url', _url('/PlannerProcessor/editGroup/'))
+	->render();
+
+create_view('/dialogs/category.phtml')
+	->assign('id', 'add-category-dialog')
+	->assign('url', _url('/PlannerProcessor/addCategory/'))
+	->render();
+
+create_view('/dialogs/category.phtml')
+	->assign('id', 'edit-category-dialog')
+	->assign('url', _url('/PlannerProcessor/editCategory/'))
+	->render();
+
+create_view('/elements/category.phtml')->render();
+
+create_view('/elements/group.phtml')
+	->assign('show_menu', true)
+	->render();
+
+create_view('/elements/context_menu.phtml')
+	->assign('id', 'categories-context-menu')
+	->assign('items', array(
+				'edit-category' => _t('/context_menu/edit'),
+				'delete-category' => _t('/context_menu/delete')
+			))
+	->render();
+
+create_view('/elements/context_menu.phtml')
+	->assign('id', 'groups-context-menu')
+	->assign('items', array(
+				'add-category' =>_t('/context_menu/add_category'),
+				'edit-group' => _t('/context_menu/edit'),
+				'delete-group' => _t('/context_menu/delete'),
+			))
+	->render();
+
+?>

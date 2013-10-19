@@ -1,0 +1,143 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	 <?php
+   		create_view('header.phtml')
+   			->assign('title', $this->title)
+   			->render();
+  	 ?>
+    <body>
+      	<script>
+			i18n["/dialogs/submit"] = "<?=_t('/js/dialogs/submit')?>";
+			i18n["/dialogs/cancel"] = "<?=_t('/js/dialogs/cancel')?>";
+			i18n["/dialogs/yes"] = "<?=_t('/js/dialogs/yes')?>";
+			i18n["/dialogs/no"] = "<?=_t('/js/dialogs/no')?>";
+			i18n["/dialogs/titles/warning"] = "<?=_t('/js/dialogs/titles/warning')?>";
+			i18n["/dialogs/titles/deposit"] = "<?=_t('/js/dialogs/titles/deposit')?>";
+			i18n["/dialogs/titles/withdrawal"] = "<?=_t('/js/dialogs/titles/withdrawal')?>";
+			i18n["/dialogs/text/close_month"] = "<?=_t('/js/dialogs/text/close_month')?>";
+		</script>
+        <div id="tp"></div>
+        <div id="content">
+        	<div id="header-top">
+        		 <div id="tp-left">
+	                <?=_t('/budget/remainder');?>: <span data-field="remainder"><?=$this->budget_summary['remainder']?></span>
+	            </div>
+	            <div id="tp-right">
+	                <b><?=_t('/budget/budget')?>:</b>  <span data-field="budget"><?=$this->budget_summary['budget']?></span>&nbsp;&nbsp;
+	                <b><?=_t('/budget/expenses')?>:</b>  <span data-field="expenses"><?=$this->budget_summary['expenses']?></span>
+	                (<a href="<?=_url('/AuthProcessor/signout/');?>"><?=_t('/auth/exit')?></a>)
+	            </div>
+	            <br class="clr" />
+        	</div>
+            <div id="header">
+                <div id="hd-left"><?php
+                	if (is_location('/MoneyFlow/*/'))
+                	{
+						echo _t('/sections/money_flow');
+                	}
+                	elseif(is_location('/Planner/*/'))
+                	{
+                		echo _t('/sections/planner');
+                	}
+                	elseif(is_location('/Logs/*/'))
+                	{
+                		echo _t('/sections/logs');
+                	}
+                	elseif(is_location('/Archive/*/'))
+                	{
+                		echo _t('/sections/archive');
+                	}
+                	elseif(is_location('/Settings/*/'))
+                	{
+                		echo _t('/sections/settings');
+                	}
+                	else
+                	{
+                		echo _t('/sections/money_flow');
+                	}
+                ?></div>
+                <div id="budget-menu">
+                        <a href="#" action="deposit"><?=_t('/budget/menu/deposit')?></a>
+                        <a href="#" action="withdrawal"><?=_t('/budget/menu/withdrawal')?></a>
+                        <a href="#" action="archive" id="last"><?=_t('/budget/menu/close_month')?></a>
+                 </div>
+               <br class="clr" />
+            </div>
+            <div id="left">
+                <ul>
+                    <li <?=is_location('/MoneyFlow/*/')? 'class="select"' : ''?>>
+                        <a href="<?=_url('/MoneyFlow/')?>"><?=_t('/sections/money_flow')?></a>
+                    </li>
+                    <li <?=is_location('/Planner/*/')? 'class="select"' : ''?>>
+                        <a href="<?=_url('/Planner/')?>"><?=_t('/sections/planner')?></a>
+                    </li>
+                    <li <?=is_location('/Logs/*/')? 'class="select"' : ''?>>
+                        <a href="<?=_url('/Logs/');?>"><?=_t('/sections/logs');?></a>
+                    </li>
+                    <li <?=is_location('/Archive/*/')? 'class="select"' : ''?>>
+                        <a href="<?=_url('/Archive/');?>"><?=_t('/sections/archive');?></a>
+                    </li>
+                </ul>
+               <?php if (is_location('/Planner/index/')){?>
+                <div id="new-gr">
+                    	<a href="#"><b><?=_t('/planner/add_group')?></b></a>
+                	</div>
+               <?php }?>
+            </div>
+            <div id="right">
+            	<?=$this->view->render()?>
+            </div>
+            <div id="footer">
+                Nica &amp; Igor Co. All rights reserved. <?=$this->year?>
+            </div>
+        </div>
+<script>
+	$(function(){
+		Models.Budget.getInstance().update(<?=json_encode($this->budget_summary)?>, true);
+		new Views.Budget();
+		new Views.BudgetMenu();
+	});
+</script>
+<script type="text/template" id="dialog-layout">
+<div class="dlg-cont" style="display: none;">
+<div class="bg"></div>
+<div class="cont">
+<div class="dlg">
+<div class="dlg-head">
+     <span class="dlg-title">{{title}}</span>
+     <a href="#" class="dlg-close"></a>
+</div>
+<div class="dlg-c">
+		<div id="dialog-content">
+		</div>
+		<div id="butt">
+			<input type="button" class="submit-button" value="{{submit}}" />&nbsp;&nbsp;
+    		<input type="button" class="cancel-button" value="{{cancel}}" />
+		</div>
+     <br class="clr"/>
+</div>
+</div>
+</div>
+</div>
+</script>
+
+<?php
+create_view('/dialogs/budget.phtml')
+	->assign('id', 'deposit-dialog')
+	->assign('url', _url('/BudgetProcessor/deposit/'))
+	->render();
+
+create_view('/dialogs/budget.phtml')
+	->assign('id', 'withdrawal-dialog')
+	->assign('url', _url('/BudgetProcessor/withdrawal/'))
+	->render();
+?>
+
+<script id="confirm-dialog" type="text/template">
+<div class="form form-t">
+{{text}}
+</div>
+</script>
+
+    </body>
+</html>

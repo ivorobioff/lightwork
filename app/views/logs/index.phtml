@@ -1,0 +1,88 @@
+<div id="search-bl">
+	<form action="<?=_url("/Logs/");?>" method="get">
+	<div id="search-arcv-inf">
+	 <table class="mf-7">
+			<tr>
+				<td>
+					<?=_t('/logs/filter/from')?>:
+				</td>
+				<td>
+				  <input autocomplete="off" type="text" name="from" value="<?=$this->filter['from']?>" />
+				</td>
+				<td rowspan="2" />
+					<input type="submit" value="<?=_t('/logs/filter/search')?>" />
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<?=_t('/logs/filter/to')?>:
+				</td>
+				<td class="mf-8">
+				   <input autocomplete="off" type="text" name="to" value="<?=$this->filter['to']?>" />
+				</td>
+			</tr>
+		</table>
+	</div>
+	<div id="token-hist">
+		<table class="mf-1 mf-7">
+			<tr>
+				<td>
+					<?=_t('/logs/filter/keyword')?>:
+				</td>
+				<td>
+					<input type="text" class="mf-6" name="keyword" value="<?=$this->escape($this->filter['keyword'])?>" />
+				</td>
+				<td class="mf-8">
+					<input type="submit" value="<?=_t('/logs/filter/search')?>" />
+				</td>
+			</tr>
+		</table>
+	</div>
+	<br class="clr" />
+	</form>
+</div>
+ <div id="info-hist">
+ 	<table class="count_tb">
+		<tr id="log-hook">
+			<th class="mf-4">
+				<?=_t('/logs/grid/date')?>
+			</th>
+			<th>
+				<?=_t('/logs/grid/items')?>
+			</th>
+			<th class="mf-5">
+				<?=_t('/logs/grid/comment')?>
+			</th>
+			<th class="mf-4">
+				<?=_t('/logs/grid/action')?>
+			</th>
+			 <th class="sum mf-4">
+				<?=_t('/logs/grid/amount')?>
+			</th>
+		</tr>
+		<?php
+			foreach ($this->logs as $item)
+			{
+			?>
+			<tr>
+				<td><?=$item['insert_date']?></td>
+				<td><?=$this->escape($item['title'])?></td>
+				<td><?=$this->escape($item['comment'])?></td>
+				<td><?=$item['action']?></td>
+				<td class="mf-2"><?=$item['amount']?></td>
+			</tr>
+			<?php
+			}
+		?>
+		<tr>
+			<td colspan="5" class="tdbg"> </td>
+		</tr>
+	</table>
+	<br/>
+	<?=$this->paginator->render()?>
+</div>
+<script>
+$(function(){
+	new Views.LogsFilter();
+});
+</script>

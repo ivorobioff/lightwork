@@ -1,0 +1,48 @@
+<div id="count"></div>
+<script>
+i18n["/dialogs/titles/money_flow_withdrawal"] = "<?=_t('/js/dialogs/titles/money_flow_withdrawal')?>";
+i18n["/dialogs/titles/refund"] = "<?=_t('/js/dialogs/titles/refund')?>";
+i18n["/dialogs/text/request_amount"] = "<?=_t('/js/dialogs/text/request_amount')?>";
+i18n["/dialogs/text/return_remainder"] = "<?=_t('/js/dialogs/text/return_remainder')?>";
+
+$(function(){
+	Collections.Groups
+		.getInstance()
+		.onAdd(function(model){
+			new Views.MoneyFlowGroup(model)
+		})
+		.addBunch(<?=json_encode($this->groups)?>);
+
+	Collections.Categories
+		.getInstance()
+		.addBunch(<?=json_encode($this->categories)?>);
+});
+</script>
+<?php
+create_view('/elements/category.phtml')
+	->assign('current_amount', true)
+	->render();
+
+create_view('/elements/group.phtml')
+	->assign('show_menu', false)
+	->render();
+
+create_view('/elements/context_menu.phtml')
+	->assign('id', 'categories-context-menu')
+	->assign('items', array(
+				'withdrawal' => _t('/context_menu/withdrawal'),
+				'refund' => _t('/context_menu/refund'),
+				'return-remainder' => _t('/context_menu/return_remainder'),
+			))
+	->render();
+
+create_view('/dialogs/amount.phtml')
+	->assign('id', 'moneyflow-withdrawal-dialog')
+	->assign('url', _url('/MoneyFlowProcessor/withdrawal/'))
+	->render();
+
+create_view('/dialogs/amount.phtml')
+	->assign('id', 'refund-dialog')
+	->assign('url', _url('/MoneyFlowProcessor/refund/'))
+	->render();
+?>
