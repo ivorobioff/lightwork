@@ -43,7 +43,7 @@ class DateFormat extends Plugins
 	 */
 	public function check()
 	{
-		$date_object = new DateTime();
+		$date_object = new \DateTime();
 
 		$formated_date = $date_object->createFromFormat($this->_format, $this->_date);
 

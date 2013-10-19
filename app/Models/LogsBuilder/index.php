@@ -4,6 +4,7 @@ namespace LightWork\Models;
 use LightWork\Libs\Paginator;
 use LightWork\Models\LogsBuilder\Iterator as LogsIterator;
 use LightWork\Db\Logs as LogsTable;
+use LightWork\Libs\Validators;
 /**
  * @author Igor Vorobioff<igor.vorobioff@gmail.com>
  */
@@ -69,7 +70,7 @@ class LogsBuilder
 	{
 		if ($from = always_set($data, 'from', ''))
 		{
-			$from = Libs_Validators::getDateFormatValidator()
+			$from = Validators::getDateFormatValidator()
 				->setDate($from)
 				->setFormat('Y-m-d')
 				->check() ? $from : '';
@@ -77,7 +78,7 @@ class LogsBuilder
 
 		if ($to = always_set($data, 'to', ''))
 		{
-			$to = Libs_Validators::getDateFormatValidator()
+			$to = Validators::getDateFormatValidator()
 				->setDate($to)
 				->setFormat('Y-m-d')
 				->check() ? $to : '';
